@@ -25,7 +25,8 @@ class ApiController
         try {
             $itemQueryParameters = new ItemQueryParameters($request->query->get('amount', []));
         } catch (\InvalidArgumentException $exception) {
-            return new JsonResponse((new ErrorResponse($exception->getMessage()))->respond(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            $errorResponse  = new ErrorResponse($exception->getMessage());
+            return new JsonResponse($errorResponse->respond(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return new JsonResponse($this->itemService->findByCriteria($itemQueryParameters));

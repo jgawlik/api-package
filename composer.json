@@ -1,5 +1,6 @@
 {
     "name": "jgawlik/api-package",
+    "type": "library",
     "authors": [
         {
             "name": "jgawlik",
@@ -11,6 +12,7 @@
     },
     "require": {
         "doctrine/dbal": "^2.6",
-        "symfony/http-foundation": "^4.0"
+        "symfony/http-foundation": "^4.0",
+        "zircote/swagger-php": "^2.0"
     }
 }
