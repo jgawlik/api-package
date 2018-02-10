@@ -33,12 +33,14 @@ class ItemRepository
         return $items->execute()->fetchAll();
     }
 
-    public function add(string $name, int $amount): void
+    public function add(string $name, int $amount): int
     {
         $this->database->insert('items', [
             'name' => $name,
             'amount' => $amount,
         ]);
+
+        return (int) $this->database->lastInsertId();
     }
 
     public function remove(int $id): void

@@ -20,4 +20,9 @@ class ItemService
     {
         return $this->itemRepository->findByCriteria($itemQueryParameters);
     }
+
+    public function addItem(string $name, int $amount): int
+    {
+        return $this->itemRepository->add($name, $amount);
+    }
 }
