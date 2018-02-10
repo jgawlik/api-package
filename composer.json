@@ -1,0 +1,16 @@
+{
+    "name": "jgawlik/api-package",
+    "authors": [
+        {
+            "name": "jgawlik",
+            "email": "justyna.gawlik@yahoo.pl"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Api\\": "src/" }
+    },
+    "require": {
+        "doctrine/dbal": "^2.6",
+        "symfony/http-foundation": "^4.0"
+    }
+}
