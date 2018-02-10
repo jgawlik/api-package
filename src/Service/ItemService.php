@@ -25,4 +25,9 @@ class ItemService
     {
         return $this->itemRepository->add($name, $amount);
     }
+
+    public function removeItem(int $itemId): void
+    {
+        $this->itemRepository->remove($itemId);
+    }
 }
