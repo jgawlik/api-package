@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Api\Service;
 
-use Api\Item\ItemQueryParameters;
+use Api\Repository\ItemQueryInterface;
 use Api\Repository\ItemRepository;
 
 class ItemService
@@ -16,7 +16,7 @@ class ItemService
         $this->itemRepository = $itemRepository;
     }
 
-    public function findByCriteria(ItemQueryParameters $itemQueryParameters): array
+    public function findByCriteria(ItemQueryInterface $itemQueryParameters): array
     {
         return $this->itemRepository->findByCriteria($itemQueryParameters);
     }

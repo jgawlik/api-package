@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Api\Repository;
 
-use Api\Item\ItemQueryParameters;
 use Doctrine\DBAL\Connection;
 
 class ItemRepository
@@ -16,18 +15,18 @@ class ItemRepository
         $this->database = $dbal;
     }
 
-    public function findByCriteria(ItemQueryParameters $itemQueryParameters): array
+    public function findByCriteria(ItemQueryInterface $itemQuery): array
     {
         $items = $this->database->createQueryBuilder()
             ->select('*')
             ->from('items', 'i');
-        if ($itemQueryParameters->getEquals() !== null) {
+        if ($itemQuery->getEquals() !== null) {
             $items->andWhere('i.amount = :equalsAmount')
-                ->setParameter('equalsAmount', $itemQueryParameters->getEquals());
+                ->setParameter('equalsAmount', $itemQuery->getEquals());
         }
-        if ($itemQueryParameters->getGreater() !== null) {
+        if ($itemQuery->getGreater() !== null) {
             $items->andWhere('i.amount > :greaterAmount')
-                ->setParameter('greaterAmount', $itemQueryParameters->getGreater());
+                ->setParameter('greaterAmount', $itemQuery->getGreater());
         }
 
         return $items->execute()->fetchAll();
