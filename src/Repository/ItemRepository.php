@@ -42,6 +42,15 @@ class ItemRepository
         return (int) $this->database->lastInsertId();
     }
 
+    public function update(string $name, int $amount, int $id): void
+    {
+        $this->database->update(
+            'items',
+            ['name' => $name, 'amount' => $amount],
+            ['id' => $id]
+        );
+    }
+
     public function remove(int $id): void
     {
         $this->database->delete('items', [
