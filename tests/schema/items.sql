@@ -1,5 +1,5 @@
 CREATE TABLE `items` (
-  `id` int(11) NOT NULL,
+  `id` integer NOT NULL PRIMARY KEY,
   `name` varchar(100) NOT NULL,
-  `amount` int NOT NULL
+  `amount` integer NOT NULL
 )
