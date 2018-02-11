@@ -32,6 +32,40 @@ class ItemRepositoryTest extends DatabaseTestCase
         $this->assertEquals($result, $expectedResult);
     }
 
+    /**
+     * @test
+     */
+    public function itAddsItem(): void
+    {
+        $itemRepository = new ItemRepository($this->getDoctrineDbalConnection());
+        $insertedItemId = $itemRepository->add('Product 10', 18);
+        $recordsInDatabase = $this->getRecordsFromDatabase();
+        $this->assertEquals(6, $insertedItemId);
+        $this->assertCount(6, $recordsInDatabase);
+    }
+
+    /**
+     * @test
+     */
+    public function itUpdateItem(): void
+    {
+        $itemRepository = new ItemRepository($this->getDoctrineDbalConnection());
+        $itemRepository->update('New Product Name', 9,1);
+        $recordsInDatabase = $this->getRecordsFromDatabase();
+        $this->assertEquals(["id" => "1", "name" => "New Product Name", "amount" => "9"], $recordsInDatabase[0]);
+    }
+
+    /**
+     * @test
+     */
+    public function itRemovesItem(): void
+    {
+        $itemRepository = new ItemRepository($this->getDoctrineDbalConnection());
+        $result = $itemRepository->remove(1);
+        $recordsInDatabase = $this->getRecordsFromDatabase();
+        $this->assertEquals(4, count($recordsInDatabase));
+    }
+
     public function itemCollectionDataProvider(): array
     {
         return [
@@ -115,5 +149,15 @@ class ItemRepositoryTest extends DatabaseTestCase
     public function getDataSet()
     {
         return new YamlDataSet(dirname(__FILE__) . "/../fixtures/items.yaml");
+    }
+
+
+    private function getRecordsFromDatabase(): array
+    {
+        return $this->getDoctrineDbalConnection()->createQueryBuilder()
+            ->select('i.*')
+            ->from('items', 'i')
+            ->execute()
+            ->fetchAll();
     }
 }
