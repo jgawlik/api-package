@@ -27,6 +27,17 @@ class ItemServiceTest extends TestCase
 
     /**
      * @test
+     * @expectedException \Api\Exception\ItemNotFoundException
+     */
+    public function itThrowsExceptionWhenItemNotFound(): void
+    {
+        $this->itemRepository->get(15)->shouldBeCalled();
+        $this->itemRepository->get(15)->willReturn([]);
+        $result = $this->prepareService()->getItem(15);
+    }
+
+    /**
+     * @test
      */
     public function itReturnsItem(): void
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Api\Service;
 
+use Api\Exception\ItemNotFoundException;
 use Api\Repository\ItemQueryInterface;
 use Api\Repository\ItemRepository;
 
@@ -18,7 +19,12 @@ class ItemService
 
     public function getItem(int $itemId): array
     {
-        return $this->itemRepository->get($itemId);
+        $result = $this->itemRepository->get($itemId);
+        if (empty($result)) {
+            throw new ItemNotFoundException($itemId);
+        }
+
+        return $result;
     }
 
     public function findByCriteria(ItemQueryInterface $itemQueryParameters): array
