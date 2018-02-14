@@ -28,6 +28,17 @@ class ItemServiceTest extends TestCase
     /**
      * @test
      */
+    public function itReturnsItem(): void
+    {
+        $this->itemRepository->get(1)->shouldBeCalled();
+        $this->itemRepository->get(1)->willReturn($this->getItems()[0]);
+        $result = $this->prepareService()->getItem(1);
+        $this->assertEquals($result, $this->getItems()[0]);
+    }
+
+    /**
+     * @test
+     */
     public function itDoesntReturnAnythingWhileSuccessfullyUpdateItem(): void
     {
         $this->itemRepository->update('Product 1', 10, 1)->shouldBeCalled();

@@ -16,6 +16,11 @@ class ItemService
         $this->itemRepository = $itemRepository;
     }
 
+    public function getItem(int $itemId): array
+    {
+        return $this->itemRepository->get($itemId);
+    }
+
     public function findByCriteria(ItemQueryInterface $itemQueryParameters): array
     {
         return $this->itemRepository->findByCriteria($itemQueryParameters);
