@@ -21,6 +21,26 @@ class ItemRepositoryTest extends DatabaseTestCase
 
     /**
      * @test
+     */
+    public function itReturnsOneItem()
+    {
+        $itemRepository = new ItemRepository($this->getDoctrineDbalConnection());
+        $result = $itemRepository->get(1);
+        $this->assertEquals(['id' => "1", 'name' => "Produkt 1", 'amount' => "4",], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function itReturnsEmptyArrayWhenQueryNotExistingItem()
+    {
+        $itemRepository = new ItemRepository($this->getDoctrineDbalConnection());
+        $result = $itemRepository->get(14545);
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     * @test
      * @dataProvider itemCollectionDataProvider
      */
     public function itReturnsItemCollection(?int $greater, ?int $equals, array $expectedResult): void
@@ -50,7 +70,7 @@ class ItemRepositoryTest extends DatabaseTestCase
     public function itUpdateItem(): void
     {
         $itemRepository = new ItemRepository($this->getDoctrineDbalConnection());
-        $itemRepository->update('New Product Name', 9,1);
+        $itemRepository->update('New Product Name', 9, 1);
         $recordsInDatabase = $this->getRecordsFromDatabase();
         $this->assertEquals(["id" => "1", "name" => "New Product Name", "amount" => "9"], $recordsInDatabase[0]);
     }

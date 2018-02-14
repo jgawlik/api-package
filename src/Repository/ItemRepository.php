@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Api\Repository;
 
 use Doctrine\DBAL\Connection;
+use PDO;
 
 class ItemRepository
 {
@@ -13,6 +14,21 @@ class ItemRepository
     public function __construct(Connection $dbal)
     {
         $this->database = $dbal;
+    }
+
+    public function get(int $itemId): array
+    {
+        $items = $this->database->createQueryBuilder()
+            ->select('i.*')
+            ->from('items', 'i')
+            ->where('i.id = :id')
+            ->setParameter('id', $itemId);
+        $result = $items->execute()->fetch();
+        if (is_bool($result)) {
+            return [];
+        }
+
+        return $result;
     }
 
     public function findByCriteria(ItemQueryInterface $itemQuery): array
@@ -29,7 +45,7 @@ class ItemRepository
                 ->setParameter('greaterAmount', $itemQuery->getGreater());
         }
 
-        return $items->execute()->fetchAll();
+        return $items->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function add(string $name, int $amount): int
